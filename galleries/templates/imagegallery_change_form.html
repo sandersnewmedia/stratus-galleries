@@ -1,0 +1,79 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block after_related_objects %}
+<div class="inline-group" id="images-group">
+    <h2>{% trans "Images" %}</h2>
+    <div class="inline-wrapper inline-related-modal-wrapper" id="images-wrapper">
+        <div class="images-list thumbnails"></div>
+        <div class="add-row">
+            <input class="image-file-input" type="file" name="image" />
+            <i class="icon-plus admin-inline-icon"></i>&nbsp;<a href="#">{% trans "Add another Image" %}</a>
+        </div>
+        <div class="progress-panel">
+            <div class="progress progress-striped active"><div class="bar"></div></div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    #images-group .inline-related { max-width: 200px; margin-left: 0; margin-right: 10px; }
+    #images-group .image-file-input { display: none; }
+    #images-group .thumbnail { background: #fff; cursor: move; margin: 3px; position: relative; }
+    #images-group .dragging { background: #fff; box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); padding: 4px; }
+    #images-group .add-row { clear: both; }
+    #images-group .delete {
+        background: #bd362f;
+        border-radius: 50px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+        color: #fff;
+        border: 2px solid #fff;
+        display: block;
+        font-size: 10px;
+        line-height: 0;
+        padding: 3px 5px 4px 5px;
+        position: absolute;
+        right: -7px;
+        text-decoration: none;
+        top: -7px;
+    }
+    #images-group  i { color: #fff; }
+    #images-group .inline-wrapper { position: relative; }
+    #images-group .images-list { padding: 0 0 20px 20px; }
+    #images-group .progress-panel {
+        background: rgba(255, 255, 255, 0.5);
+        display: none;
+        height: 106%;
+        position: absolute;
+        top: -6px;
+        width: 100%;
+    }
+    #images-group .progress {
+        background: #ccc;
+        margin: 0 auto;
+        position: relative;
+        top: 30%;
+        width: 50%;
+    }
+</style>
+
+<script type="text/javascript">
+
+    var inline = new ImageInline({
+        el: $('#images-group'),
+        baseUrl: "{% url opts|admin_urlname:'image_list' original.pk|admin_urlquote %}"
+    });
+
+    $(function(){
+        $.ajaxSetup({headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()}});
+    });
+
+</script>
+
+<script id="image-template" type="text/html">
+    <img src="<%= url %>"<% if (width) { %> width="<%= width %>"<% } %><% if (height) { %> height="<%= height %>"<% } %> />
+    <a class="delete" href="#"><i class="icon-remove"></i></a>
+</script>
+{% endblock %}
