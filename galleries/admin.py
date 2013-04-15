@@ -11,7 +11,10 @@ class ImageGalleryAdmin(admin.ModelAdmin):
     change_form_template = 'admin/imagegallery_change_form.html'
 
     class Media(object):
-        js = ['galleries/js/imagegallery.js']
+        js = [
+            'galleries/js/jquery.fileupload.js',
+            'galleries/js/imagegallery.js',
+        ]
 
     def get_urls(self):
         from django.conf.urls import patterns, url
