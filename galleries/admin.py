@@ -66,7 +66,7 @@ class ImageGalleryAdmin(admin.ModelAdmin):
 
     def handle_image_list(self, request, obj):
         images = []
-        for image in obj.images.all():
+        for image in obj.images.order_by('order'):
             data = self.image_to_dict(image)
             if data:
                 images.append(data)
